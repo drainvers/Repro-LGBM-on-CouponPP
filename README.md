@@ -11,5 +11,5 @@ Prediction](https://www.kaggle.com/c/coupon-purchase-prediction/)
 For the preprocessed data, please refer to the original repository.
 
 # Results (MAP@10)
-- Private score: 0.00510
-- Public score: 0.00533
+- Private score: 0.00547
+- Public score: 0.00597
