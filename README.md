@@ -22,12 +22,22 @@ current_directory
 |   |-> *all dataset csv files go here*
 |
 |-> translation
-|   |-> *translation mapping csv file go here*
+|   |-> *translation mapping csv files go here*
 |
 |-> generate_positive_negative_samples.py
 |-> generate_positive_negative_samples_no_translation.py
 |-> CPP_REPRO_LGBM.ipynb
 ```
 1. First, run `generate_positive_negative_examples.py` (a variant of this script that uses the dataset without translation is also provided)
-2. Once positive and negative examples have been generated, run the IPython notebook
-3. The generated submission file can then be uploaded to Kaggle
+2. Once positive and negative examples have been generated, you will get the following files:
+    ```
+    current_directory/CPP_REPRO_coupon_detail_train.csv
+    current_directory/CPP_REPRO_coupon_user_list.csv
+    current_directory/CPP_REPRO_coupon_list_train.csv
+    current_directory/CPP_REPRO_coupon_list_train.csv
+    current_directory/CPP_REPRO_coupon_list_test.csv
+    current_directory/positive_coupons_train.csv
+    current_directory/negative_coupons_train.csv
+    ```
+3. Run the IPython notebook
+3. The generated submission CSV file can then be uploaded to Kaggle
