@@ -29,9 +29,7 @@ def list_all_files_in(dirpath):
             for filename in filenames]
 
 df_paths = dict(list_all_files_in('dataset'))
-trans_paths = dict(list_all_files_in('translation'))
 dataframes = {}
-translations = {}
 
 # Dataset
 print('Loading dataset...')
@@ -39,32 +37,10 @@ for df_name, csv_path in df_paths.items():
     dataframes[df_name] = pd.read_csv(csv_path)
     print("Read from", csv_path, "into", df_name, "successful")
 
-# Translation mappings
-print('Loading translations...')
-for df_name, csv_path in trans_paths.items():
-    translations[df_name] = pd.read_csv(csv_path, delimiter=';', index_col='jpn')
-    print("Read from", csv_path, "into", df_name, "successful")
-
-# Rename some columns, this should make translation easier
+# Rename some columns
 dataframes['coupon_visit_train'].rename(columns={'VIEW_COUPON_ID_hash':'COUPON_ID_hash'}, inplace=True)
 dataframes['coupon_list_train'].rename(columns={'large_area_name':'LARGE_AREA_NAME', 'ken_name':'PREF_NAME', 'small_area_name':'SMALL_AREA_NAME'},inplace=True)
 dataframes['coupon_list_test'].rename(columns={'large_area_name':'LARGE_AREA_NAME', 'ken_name':'PREF_NAME', 'small_area_name':'SMALL_AREA_NAME'},inplace=True)
-
-# Actual translation work
-print('Translating columns and cleaning up...')
-trans_column_dict = {
-    'coupon_list_train': ['CAPSULE_TEXT', 'GENRE_NAME', 'LARGE_AREA_NAME', 'PREF_NAME', 'SMALL_AREA_NAME'],
-    'coupon_list_test': ['CAPSULE_TEXT', 'GENRE_NAME', 'LARGE_AREA_NAME', 'PREF_NAME', 'SMALL_AREA_NAME'],
-    'coupon_area_train': ['SMALL_AREA_NAME', 'PREF_NAME'],
-    'coupon_area_test': ['SMALL_AREA_NAME', 'PREF_NAME'],
-    'prefecture_locations': ['PREF_NAME', 'PREFECTUAL_OFFICE'],
-    'user_list': ['PREF_NAME'],
-    'coupon_detail_train': ['SMALL_AREA_NAME']
-}
-
-for df_name, columns in trans_column_dict.items():
-    for col in columns:
-        dataframes[df_name][col] = dataframes[df_name][col].replace(translations[col].to_dict()['en'])
 
 for df_name in ['coupon_list_train', 'coupon_list_test']:
     dataframes[df_name]['VALIDFROM'].fillna(dataframes[df_name]['DISPFROM'], inplace=True)
